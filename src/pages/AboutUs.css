@@ -1,0 +1,97 @@
+.about-us-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.about-us-container {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Maskot stili */
+.about-us-mascot {
+  position: sticky;
+  top: 100px;
+  background: #fff;
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+/* Not Kağıdı Stili */
+.about-us-note {
+  position: relative;
+  background: #fefce8; /* Sarımsı not kağıdı rengi */
+  border-radius: 4px;
+  padding: 40px 48px 48px;
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.08), 
+    0 5px 15px rgba(0, 0, 0, 0.04);
+  transform: rotate(0.5deg);
+  border-left: 25px solid #fef3c7; /* Kağıt cilt payı hissi */
+  font-family: 'Poppins', sans-serif;
+  color: #1f2937;
+  overflow: hidden;
+}
+
+/* Kağıt üstündeki iğne stili */
+.note-pin {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 28px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+  z-index: 10;
+}
+
+.note-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e3a8a; /* Kurumsal lacivert tonu */
+  margin: 0 0 16px;
+  border-bottom: 2px dashed rgba(217, 119, 6, 0.2);
+  padding-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+
+.note-title:not(:first-of-type) {
+  margin-top: 32px;
+}
+
+.note-text {
+  font-size: 14.5px;
+  line-height: 1.75;
+  margin: 0 0 16px;
+  color: #374151;
+  text-align: justify;
+}
+
+.note-text strong {
+  color: #111827;
+  font-weight: 600;
+}
+
+/* Responsive Tasarım */
+@media (max-width: 900px) {
+  .about-us-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .about-us-mascot {
+    position: static;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .about-us-note {
+    padding: 30px 24px;
+    border-left: 12px solid #fef3c7;
+    transform: none;
+  }
+}

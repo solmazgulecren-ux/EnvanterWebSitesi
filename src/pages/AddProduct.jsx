@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { AddProductTile } from '../components/ProductCard';
 import ProductCard from '../components/ProductCard';
 import { useProducts } from '../hooks/useProducts';
-import { sortProducts, withMonsterColors } from '../utils/productHelpers';
+import { sortProducts, withCategoryColors, textColorForBg } from '../utils/productHelpers';
+import { CATEGORIES, CATEGORY_COLORS } from '../theme/colors';
 import './AddProduct.css';
 import '../pages/InventoryList.css';
 
@@ -15,12 +16,15 @@ export default function AddProduct() {
   const [image, setImage] = useState('');
   const [description, setDescription] = useState('');
   const [defectNotes, setDefectNotes] = useState('');
+  const [category, setCategory] = useState('Bilgisayar');
+  const [stock, setStock] = useState('');
   const [nameError, setNameError] = useState('');
   const [imageError, setImageError] = useState('');
+  const [stockError, setStockError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
   const sortedProducts = useMemo(
-    () => withMonsterColors(sortProducts(products, 'name-asc')),
+    () => withCategoryColors(sortProducts(products, 'name-asc')),
     [products],
   );
 
@@ -41,8 +45,11 @@ export default function AddProduct() {
     setImage('');
     setDescription('');
     setDefectNotes('');
+    setCategory('Bilgisayar');
+    setStock('');
     setNameError('');
     setImageError('');
+    setStockError('');
   };
 
   const handleSubmit = (event) => {
@@ -63,9 +70,17 @@ export default function AddProduct() {
       setImageError('');
     }
 
+    const stockNum = Number(stock);
+    if (!stock || stockNum < 0 || !Number.isInteger(stockNum)) {
+      setStockError('Geçerli bir stok miktarı giriniz');
+      hasError = true;
+    } else {
+      setStockError('');
+    }
+
     if (hasError) return;
 
-    addProduct({ name, image, description, defectNotes });
+    addProduct({ name, image, description, defectNotes, category, stock: stockNum });
     setSuccessMessage('Ürün başarıyla eklendi');
     resetForm();
     setShowForm(false);
@@ -102,7 +117,7 @@ export default function AddProduct() {
         <div className="add-product-modal-backdrop" onClick={() => setShowForm(false)}>
           <div className="add-product-modal" onClick={(event) => event.stopPropagation()}>
             <h2>Yeni Ürün Bilgileri</h2>
-            <p className="add-product-modal-subtitle">Görsel, isim, açıklama ve varsa hata bilgisi girin.</p>
+            <p className="add-product-modal-subtitle">Görsel, isim, kategori, stok miktarı ve açıklama girin.</p>
 
             <form onSubmit={handleSubmit} noValidate>
               <div className="add-form-group">
@@ -118,6 +133,47 @@ export default function AddProduct() {
                     if (nameError) setNameError('');
                   }}
                   placeholder="Örn: Dizüstü Bilgisayar"
+                />
+              </div>
+
+              {/* ── Kategori seçimi ── */}
+              <div className="add-form-group">
+                <label>Kategori</label>
+                <div className="add-form-category-select">
+                  {CATEGORIES.map((cat) => (
+                    <button
+                      key={cat}
+                      type="button"
+                      className={`category-select-btn${category === cat ? ' active' : ''}`}
+                      style={{
+                        '--cat-color': CATEGORY_COLORS[cat],
+                        backgroundColor: category === cat ? CATEGORY_COLORS[cat] : 'transparent',
+                        color: category === cat ? textColorForBg(CATEGORY_COLORS[cat]) : '#555',
+                        borderColor: CATEGORY_COLORS[cat],
+                      }}
+                      onClick={() => setCategory(cat)}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* ── Stok miktarı ── */}
+              <div className="add-form-group">
+                <div className="add-form-label-row">
+                  <label>Stok Miktarı</label>
+                  {stockError && <span className="add-form-error">{stockError}</span>}
+                </div>
+                <input
+                  type="number"
+                  min="0"
+                  value={stock}
+                  onChange={(event) => {
+                    setStock(event.target.value);
+                    if (stockError) setStockError('');
+                  }}
+                  placeholder="Örn: 25"
                 />
               </div>
 

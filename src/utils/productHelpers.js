@@ -1,4 +1,4 @@
-import { MONSTER_COLORS, LIGHT_PINK, YELLOW } from '../theme/colors';
+import { CATEGORY_COLORS, MONSTER_COLORS, LIGHT_PINK, YELLOW } from '../theme/colors';
 
 export function textColorForBg(color) {
   return color === LIGHT_PINK || color === YELLOW ? '#111' : '#fff';
@@ -21,9 +21,9 @@ export function sortProducts(list, sortBy) {
   }
 }
 
-export function withMonsterColors(products) {
+export function withCategoryColors(products) {
   return products.map((product, index) => ({
     ...product,
-    color: MONSTER_COLORS[index % MONSTER_COLORS.length],
+    color: CATEGORY_COLORS[product.category] || MONSTER_COLORS[index % MONSTER_COLORS.length],
   }));
 }

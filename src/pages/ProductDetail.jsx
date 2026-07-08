@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useMemo } from 'react';
 import { useProducts } from '../hooks/useProducts';
-import { MONSTER_COLORS } from '../theme/colors';
+import { CATEGORY_COLORS, MONSTER_COLORS } from '../theme/colors';
 import { textColorForBg } from '../utils/productHelpers';
 import './ProductDetail.css';
 
@@ -14,10 +14,11 @@ export default function ProductDetail() {
     [products, id],
   );
 
+  /* Kategori bazlı renk: ürünün kategorisine göre sabit renk atanır */
   const color = useMemo(() => {
-    const index = products.findIndex((item) => item.id === Number(id));
-    return MONSTER_COLORS[index >= 0 ? index % MONSTER_COLORS.length : 0];
-  }, [products, id]);
+    if (!product) return MONSTER_COLORS[0];
+    return CATEGORY_COLORS[product.category] || MONSTER_COLORS[0];
+  }, [product]);
 
   if (!product) {
     return (

@@ -50,3 +50,85 @@
   font-weight: 700;
   color: #111;
 }
+
+/* ── Kategori Filtre Bölümü ── */
+.dashboard-category-section {
+  margin-top: 32px;
+}
+
+.dashboard-section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 16px;
+  letter-spacing: -0.3px;
+}
+
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.category-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 24px;
+  border: 2px solid var(--cat-color);
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: transparent;
+}
+
+.category-filter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.category-filter-btn.active {
+  box-shadow: 0 6px 22px color-mix(in srgb, var(--cat-color) 30%, transparent);
+  transform: translateY(-1px);
+}
+
+.category-filter-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.3);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 0 5px;
+}
+
+.category-filter-btn:not(.active) .category-filter-count {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* ── Filtrelenmiş ürün grid ── */
+.dashboard-products-grid {
+  margin-top: 0;
+}
+
+.dashboard-empty-filter {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
+}
+
+.dashboard-empty-filter p {
+  color: #999;
+  font-size: 14px;
+  font-style: italic;
+  margin: 0;
+}

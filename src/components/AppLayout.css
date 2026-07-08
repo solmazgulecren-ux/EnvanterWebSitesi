@@ -17,6 +17,10 @@
   background: #fff8fc;
   border-right: 1px solid rgba(234, 64, 118, 0.08);
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.04);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  box-sizing: border-box;
 }
 
 .sidebar-brand {

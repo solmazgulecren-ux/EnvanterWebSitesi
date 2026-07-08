@@ -5,3 +5,14 @@ export const LIGHT_PINK = '#FFC0DC';
 export const YELLOW = '#FFD15C';
 
 export const MONSTER_COLORS = [MAGENTA, TEAL, BLUE, LIGHT_PINK, YELLOW];
+
+/* ── Kategori → Renk eşleştirmesi (canavar renkleri) ── */
+export const CATEGORY_COLORS = {
+  'Bilgisayar': MAGENTA,    // Pembe (canavar magenta)
+  'Kulaklık': YELLOW,       // Sarı
+  'Klavye': TEAL,            // Yeşil (canavar teal)
+  'Mouse': BLUE,             // Mavi
+  'Diğer': LIGHT_PINK,       // Diğer (toz pembe)
+};
+
+export const CATEGORIES = ['Bilgisayar', 'Kulaklık', 'Klavye', 'Mouse', 'Diğer'];

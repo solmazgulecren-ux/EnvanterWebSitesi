@@ -64,10 +64,39 @@
 .add-product-modal {
   width: 100%;
   max-width: 480px;
+  max-height: calc(100vh - 40px);
   background: #fff;
   border-radius: 20px;
   padding: 28px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.add-product-modal form {
+  overflow-y: auto;
+  padding-right: 6px;
+  flex: 1;
+}
+
+/* Scrollbar styling for modal form */
+.add-product-modal form::-webkit-scrollbar {
+  width: 6px;
+}
+
+.add-product-modal form::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 3px;
+}
+
+.add-product-modal form::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 3px;
+}
+
+.add-product-modal form::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.24);
 }
 
 .add-product-modal h2 {
@@ -176,4 +205,32 @@
 
 .add-form-submit:hover {
   background: #333;
+}
+
+/* ── Kategori seçim butonları ── */
+.add-form-category-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.category-select-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 2px solid var(--cat-color);
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.category-select-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.category-select-btn.active {
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--cat-color) 35%, transparent);
 }

@@ -30,6 +30,70 @@
   gap: 10px;
 }
 
+.inventory-header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.inventory-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #fff8e1;
+  /* Soluk sarı canavar rengi */
+  border: 2px solid rgba(255, 209, 92, 0.45);
+  border-radius: 12px;
+  padding: 2px 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  transition: all 0.25s ease;
+}
+
+.inventory-search-wrap:focus-within {
+  border-color: #ffd15c;
+  /* Sarı canavar rengi */
+  box-shadow: 0 4px 20px rgba(255, 209, 92, 0.15);
+  background: #fffdf5;
+}
+
+.inventory-search-wrap .search-icon {
+  margin-right: 8px;
+  opacity: 0.7;
+}
+
+.inventory-search-wrap input {
+  border: none;
+  background: transparent;
+  padding: 8px 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #111;
+  outline: none;
+  width: 240px;
+}
+
+.inventory-search-wrap input::placeholder {
+  color: #7b7460;
+  opacity: 0.7;
+}
+
+.inventory-empty-search {
+  background: #fff;
+  border-radius: 16px;
+  padding: 48px;
+  text-align: center;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.04);
+}
+
+.inventory-empty-search p {
+  color: #888;
+  font-size: 15px;
+  font-style: italic;
+  margin: 0;
+}
+
 .inventory-sort label {
   font-size: 13px;
   font-weight: 600;

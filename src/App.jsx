@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard';
 import InventoryList from './pages/InventoryList';
 import AddProduct from './pages/AddProduct';
 import ProductDetail from './pages/ProductDetail';
+import AboutUs from './pages/AboutUs';
 import Login from './pages/Login';
 import RegisterScreen from './pages/RegisterScreen';
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/urunler" element={<InventoryList />} />
           <Route path="/urunler/:id" element={<ProductDetail />} />
           <Route path="/urun-ekle" element={<AddProduct />} />
+          <Route path="/hakkimizda" element={<AboutUs />} />
         </Route>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
       </Routes>

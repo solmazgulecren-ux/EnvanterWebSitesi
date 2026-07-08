@@ -33,6 +33,9 @@ export default function AppLayout() {
             <NavLink to="/urun-ekle" className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}>
               Ürün Ekle
             </NavLink>
+            <NavLink to="/hakkimizda" className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}>
+              Hakkımızda
+            </NavLink>
             <button type="button" className="sidebar-link sidebar-logout" onClick={handleLogout}>
               Çıkış Yap
             </button>
