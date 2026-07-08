@@ -81,3 +81,25 @@ export function getDashboardStats(products = getProducts()) {
     categories: categories.size,
   };
 }
+
+export function updateProduct(id, updatedData) {
+  const products = getProducts();
+  const index = products.findIndex((p) => p.id === Number(id));
+  if (index !== -1) {
+    products[index] = {
+      ...products[index],
+      ...updatedData,
+      id: Number(id),
+    };
+    saveProducts(products);
+    return products[index];
+  }
+  return null;
+}
+
+export function deleteProduct(id) {
+  const products = getProducts();
+  const filtered = products.filter((p) => p.id !== Number(id));
+  saveProducts(filtered);
+  return filtered;
+}

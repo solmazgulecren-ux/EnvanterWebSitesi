@@ -1,19 +1,25 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import SidebarMonster from './SidebarMonster';
+import { useTranslation } from '../utils/i18n';
+import LanguageSelector from './LanguageSelector';
+import { logoutUser } from '../utils/auth';
 import './AppLayout.css';
 
 export default function AppLayout() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleLogout = () => {
-    const confirmed = window.confirm('Çıkış yapmak istediğinize emin misiniz?');
+    const confirmed = window.confirm(t('sidebar.logoutConfirm'));
     if (confirmed) {
+      logoutUser();
       navigate('/login');
     }
   };
 
   return (
     <div className="app-shell">
+      <LanguageSelector />
       <aside className="app-sidebar">
         <div className="sidebar-top">
           <div className="sidebar-brand">
@@ -25,19 +31,19 @@ export default function AppLayout() {
 
           <nav className="sidebar-nav">
             <NavLink to="/dashboard" className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}>
-              Özet Paneli
+              {t('sidebar.dashboard')}
             </NavLink>
             <NavLink to="/urunler" className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}>
-              Ürün Listesi
+              {t('sidebar.inventoryList')}
             </NavLink>
             <NavLink to="/urun-ekle" className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}>
-              Ürün Ekle
+              {t('sidebar.addProduct')}
             </NavLink>
             <NavLink to="/hakkimizda" className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}>
-              Hakkımızda
+              {t('sidebar.aboutUs')}
             </NavLink>
             <button type="button" className="sidebar-link sidebar-logout" onClick={handleLogout}>
-              Çıkış Yap
+              {t('sidebar.logout')}
             </button>
           </nav>
         </div>

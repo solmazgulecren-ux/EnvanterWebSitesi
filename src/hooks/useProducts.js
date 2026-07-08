@@ -3,6 +3,8 @@ import {
   addProduct as addProductToStore,
   getProducts,
   PRODUCTS_UPDATED_EVENT,
+  updateProduct as updateProductInStore,
+  deleteProduct as deleteProductFromStore,
 } from '../utils/products';
 
 export function useProducts() {
@@ -27,5 +29,17 @@ export function useProducts() {
     return created;
   }, [refreshProducts]);
 
-  return { products, addProduct, refreshProducts };
+  const updateProduct = useCallback((id, productData) => {
+    const updated = updateProductInStore(id, productData);
+    refreshProducts();
+    return updated;
+  }, [refreshProducts]);
+
+  const deleteProduct = useCallback((id) => {
+    const deleted = deleteProductFromStore(id);
+    refreshProducts();
+    return deleted;
+  }, [refreshProducts]);
+
+  return { products, addProduct, updateProduct, deleteProduct, refreshProducts };
 }

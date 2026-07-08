@@ -5,6 +5,8 @@ import './Login.css';
 import '../styles/monsterAnimations.css';
 import { getMonsterPeekState } from '../utils/monsterPeek';
 import { useMonsterChat } from '../hooks/useMonsterChat';
+import { useTranslation } from '../utils/i18n';
+import LanguageSelector from '../components/LanguageSelector';
 
 const MAGENTA = '#EA4076';
 const TEAL = '#73D2C8';
@@ -12,9 +14,10 @@ const BLUE = '#439BF1';
 const LIGHT_PINK = '#FFC0DC';
 
 export default function Login() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const registeredNotice = location.state?.registered ? 'Kayıt başarılı! Şimdi giriş yapabilirsiniz.' : '';
+  const registeredNotice = location.state?.registered ? (t('lang') === 'ar' ? 'تم التسجيل بنجاح! يمكنك الدخول الآن.' : t('lang') === 'es' ? '¡Registro exitoso! Ahora puedes iniciar sesión.' : t('lang') === 'en' ? 'Registration successful! You can now log in.' : 'Kayıt başarılı! Şimdi giriş yapabilirsiniz.') : '';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -47,10 +50,10 @@ export default function Login() {
 
     // E-posta Doğrulama
     if (!email) {
-      setEmailError('E-posta adresi boş bırakılamaz');
+      setEmailError(t('login.errorEmailEmpty'));
       hasErr = true;
     } else if (!email.includes('@')) {
-      setEmailError('Geçersiz e-posta formatı (@ bulunmalı)');
+      setEmailError(t('login.errorEmailFormat'));
       hasErr = true;
     } else {
       setEmailError('');
@@ -58,7 +61,7 @@ export default function Login() {
 
     // Şifre Doğrulama
     if (!password) {
-      setPasswordError('Şifre boş bırakılamaz');
+      setPasswordError(t('login.errorPasswordEmpty'));
       hasErr = true;
     } else {
       setPasswordError('');
@@ -72,10 +75,10 @@ export default function Login() {
 
     const result = loginUser(email, password);
     if (!result.ok) {
-      if (result.error.includes('şifre')) {
-        setPasswordError(result.error);
+      if (result.error.includes('şifre') || result.error.includes('password') || result.error.includes('contraseña')) {
+        setPasswordError(t('login.errorMsg'));
       } else {
-        setEmailError(result.error);
+        setEmailError(t('login.errorMsg'));
       }
       setIsError(true);
       setTimeout(() => setIsError(false), 2000);
@@ -133,6 +136,7 @@ export default function Login() {
 
   return (
     <div className="login-page">
+      <LanguageSelector />
       {/* ── Sol Panel (Karakterler) ── */}
       <div className="login-left">
         <svg viewBox="0 0 500 500" className="monsters-svg" width="100%" height="100%">
@@ -289,8 +293,8 @@ export default function Login() {
               <path d="M2 19h20v2H2v-2zm1.2-5l2-9 4.3 4.3L12 3l2.5 6.3L18.8 5l2 9H3.2z" />
             </svg>
           </div>
-          <h2>Welcome back!</h2>
-          <p className="subtitle">Please enter your details</p>
+          <h2>{t('login.welcomeBack')}</h2>
+          <p className="subtitle">{t('login.enterDetails')}</p>
 
           {infoMessage && (
             <div className="login-info-toast" role="status">
@@ -301,7 +305,7 @@ export default function Login() {
           <form onSubmit={handleSubmit} noValidate>
             <div className="form-group">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <label style={{ margin: 0 }}>Email</label>
+                <label style={{ margin: 0 }}>{t('login.email')}</label>
                 {emailError && <span style={{ color: '#E02B6D', fontSize: '11px', fontWeight: '600' }}>{emailError}</span>}
               </div>
               <input
@@ -319,7 +323,7 @@ export default function Login() {
 
             <div className="form-group" style={{ position: 'relative' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <label style={{ margin: 0 }}>Password</label>
+                <label style={{ margin: 0 }}>{t('login.password')}</label>
                 {passwordError && <span style={{ color: '#E02B6D', fontSize: '11px', fontWeight: '600' }}>{passwordError}</span>}
               </div>
               <input 
@@ -351,13 +355,13 @@ export default function Login() {
 
             <div className="form-extras">
               <label>
-                <input type="checkbox" /> Remember me
+                <input type="checkbox" /> {t('login.rememberMe')}
               </label>
-              <a href="#forgot">Forgot password?</a>
+              <a href="#forgot">{t('login.forgotPassword')}</a>
             </div>
 
             <button type="submit" className="btn-login" id="login-submit-btn">
-              Log in
+              {t('login.loginBtn')}
             </button>
             <button type="button" className="btn-google">
               <svg width="18" height="18" viewBox="0 0 24 24">
@@ -366,12 +370,12 @@ export default function Login() {
                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
               </svg>
-              Log in with Google
+              {t('login.googleLogin')}
             </button>
           </form>
 
           <div className="form-footer">
-            Don't have an account? <Link to="/kayit">Sign up</Link>
+            {t('login.noAccount')} <Link to="/kayit">{t('login.signUp')}</Link>
           </div>
         </div>
       </div>

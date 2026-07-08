@@ -7,6 +7,8 @@ import YellowMonster from '../components/YellowMonster';
 import RegisterEdgeMonster from '../components/RegisterEdgeMonster';
 import { getMonsterPeekState } from '../utils/monsterPeek';
 import { useMonsterChat } from '../hooks/useMonsterChat';
+import { useTranslation } from '../utils/i18n';
+import LanguageSelector from '../components/LanguageSelector';
 
 const MAGENTA = '#EA4076';
 const TEAL = '#73D2C8';
@@ -14,6 +16,7 @@ const BLUE = '#439BF1';
 const LIGHT_PINK = '#FFC0DC';
 
 export default function RegisterScreen() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -51,7 +54,7 @@ export default function RegisterScreen() {
 
     // Ad Doğrulama
     if (!firstName.trim()) {
-      setFirstNameError('Ad alanı boş bırakılamaz');
+      setFirstNameError(t('register.errorFirstNameEmpty'));
       hasErr = true;
     } else {
       setFirstNameError('');
@@ -59,7 +62,7 @@ export default function RegisterScreen() {
 
     // Soyad Doğrulama
     if (!lastName.trim()) {
-      setLastNameError('Soyad alanı boş bırakılamaz');
+      setLastNameError(t('register.errorLastNameEmpty'));
       hasErr = true;
     } else {
       setLastNameError('');
@@ -67,10 +70,10 @@ export default function RegisterScreen() {
 
     // E-posta Doğrulama
     if (!email) {
-      setEmailError('E-posta adresi boş bırakılamaz');
+      setEmailError(t('login.errorEmailEmpty'));
       hasErr = true;
     } else if (!email.includes('@')) {
-      setEmailError('Geçersiz e-posta formatı (@ bulunmalı)');
+      setEmailError(t('login.errorEmailFormat'));
       hasErr = true;
     } else {
       setEmailError('');
@@ -78,7 +81,7 @@ export default function RegisterScreen() {
 
     // Şifre 1 Doğrulama
     if (!password) {
-      setPasswordError('Şifre alanı boş bırakılamaz');
+      setPasswordError(t('login.errorPasswordEmpty'));
       hasErr = true;
     } else {
       setPasswordError('');
@@ -86,10 +89,10 @@ export default function RegisterScreen() {
 
     // Şifre 2 Doğrulama
     if (!confirmPassword) {
-      setConfirmPasswordError('Şifre tekrarı boş bırakılamaz');
+      setConfirmPasswordError(t('register.errorConfirmPasswordEmpty'));
       hasErr = true;
     } else if (password && password !== confirmPassword) {
-      setConfirmPasswordError('Şifreler uyuşmuyor');
+      setConfirmPasswordError(t('register.errorMatch'));
       hasErr = true;
     } else {
       setConfirmPasswordError('');
@@ -168,6 +171,7 @@ export default function RegisterScreen() {
 
   return (
     <div className="register-page">
+      <LanguageSelector />
       {/* ── Sol Panel (Karakterler) ── */}
       <div className="register-left">
         <svg viewBox="0 0 500 500" className="monsters-svg" width="100%" height="100%">
@@ -329,8 +333,8 @@ export default function RegisterScreen() {
               <path d="M2 19h20v2H2v-2zm1.2-5l2-9 4.3 4.3L12 3l2.5 6.3L18.8 5l2 9H3.2z" />
             </svg>
           </div>
-          <h2>Create Account</h2>
-          <p className="subtitle">Please fill details to register</p>
+          <h2>{t('register.createAccount')}</h2>
+          <p className="subtitle">{t('register.subtitle')}</p>
 
           {successMessage && (
             <div className="register-success-toast" role="status">
@@ -342,7 +346,7 @@ export default function RegisterScreen() {
             {/* Ad Alanı */}
             <div className="form-group">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <label style={{ margin: 0 }}>First Name</label>
+                <label style={{ margin: 0 }}>{t('lang') === 'ar' ? 'الاسم الأول' : t('lang') === 'es' ? 'Nombre' : t('lang') === 'en' ? 'First Name' : 'Ad'}</label>
                 {firstNameError && <span style={{ color: '#E02B6D', fontSize: '11px', fontWeight: '600' }}>{firstNameError}</span>}
               </div>
               <input
@@ -361,7 +365,7 @@ export default function RegisterScreen() {
             {/* Soyad Alanı */}
             <div className="form-group">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <label style={{ margin: 0 }}>Last Name</label>
+                <label style={{ margin: 0 }}>{t('lang') === 'ar' ? 'الاسم الأخير' : t('lang') === 'es' ? 'Apellido' : t('lang') === 'en' ? 'Last Name' : 'Soyad'}</label>
                 {lastNameError && <span style={{ color: '#E02B6D', fontSize: '11px', fontWeight: '600' }}>{lastNameError}</span>}
               </div>
               <input
@@ -380,7 +384,7 @@ export default function RegisterScreen() {
             {/* E-posta Alanı */}
             <div className="form-group">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <label style={{ margin: 0 }}>Email</label>
+                <label style={{ margin: 0 }}>{t('register.email')}</label>
                 {emailError && <span style={{ color: '#E02B6D', fontSize: '11px', fontWeight: '600' }}>{emailError}</span>}
               </div>
               <input
@@ -399,7 +403,7 @@ export default function RegisterScreen() {
             {/* Şifre 1 Alanı */}
             <div className="form-group" style={{ position: 'relative' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <label style={{ margin: 0 }}>Password</label>
+                <label style={{ margin: 0 }}>{t('login.password')}</label>
                 {passwordError && <span style={{ color: '#E02B6D', fontSize: '11px', fontWeight: '600' }}>{passwordError}</span>}
               </div>
               <input 
@@ -432,7 +436,7 @@ export default function RegisterScreen() {
             {/* Şifre 2 Alanı (Confirm Password) */}
             <div className="form-group">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <label style={{ margin: 0 }}>Confirm Password</label>
+                <label style={{ margin: 0 }}>{t('register.passwordConfirm')}</label>
                 {confirmPasswordError && <span style={{ color: '#E02B6D', fontSize: '11px', fontWeight: '600' }}>{confirmPasswordError}</span>}
               </div>
               <input
@@ -449,12 +453,12 @@ export default function RegisterScreen() {
             </div>
 
             <button type="submit" className="btn-register" id="register-submit-btn">
-              Register
+              {t('register.submitBtn')}
             </button>
           </form>
 
           <div className="form-footer">
-            Already have an account? <Link to="/login">Log in</Link>
+            {t('register.alreadyHaveAccount')} <Link to="/login">{t('login.loginBtn')}</Link>
           </div>
         </div>
       </div>

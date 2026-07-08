@@ -2,9 +2,24 @@ const USERS_KEY = 'envanter_users';
 
 export function getUsers() {
   try {
-    return JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    if (!users.some((u) => u.email === 'a@a')) {
+      users.push({
+        firstName: "Test",
+        lastName: "User",
+        email: "a@a",
+        password: "a"
+      });
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+    return users;
   } catch {
-    return [];
+    return [{
+      firstName: "Test",
+      lastName: "User",
+      email: "a@a",
+      password: "a"
+    }];
   }
 }
 
@@ -40,5 +55,19 @@ export function loginUser(email, password) {
     return { ok: false, error: 'Hatalı şifre girdiniz' };
   }
 
+  localStorage.setItem('envanter_current_user', JSON.stringify(user));
   return { ok: true, user };
+}
+
+export function getCurrentUser() {
+  try {
+    const userStr = localStorage.getItem('envanter_current_user');
+    return userStr ? JSON.parse(userStr) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function logoutUser() {
+  localStorage.removeItem('envanter_current_user');
 }

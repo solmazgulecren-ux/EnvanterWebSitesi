@@ -1,6 +1,8 @@
+import { useTranslation } from '../utils/i18n';
 import './AboutUs.css';
 
 export default function AboutUs() {
+  const { t } = useTranslation();
   return (
     <div className="about-us-page">
       <div className="about-us-container">
@@ -97,25 +99,25 @@ export default function AboutUs() {
         <div className="about-us-note">
           <div className="note-pin">📌</div>
 
-          <h2 className="note-title">🏢 Biz Kimiz? (TEİN Teknoloji)</h2>
+          <h2 className="note-title">{t('aboutUsPage.title1')}</h2>
           <p className="note-text">
-            2017 yılında Birleşik Krallık'ta temelleri atılan ve 2020 yılından itibaren yoluna <strong>TEİN Teknoloji</strong> olarak devam eden şirketimiz, dijital dönüşümü sadece bir araç değil, bir vizyon olarak benimsemektedir. Merkez ofisini teknoloji ve inovasyonun kalbinde, <strong>Düzce Teknopark</strong>'ta konumlandıran firmamız; bankacılık, e-ticaret, telekomünikasyon ve sanal gerçeklik gibi birçok farklı sektörde global ölçekte yenilikçi BT çözümleri sunmaktadır.
+            {t('aboutUsPage.text1_1')}
           </p>
           <p className="note-text">
-            Yerel yetenekleri keşfederek dünya sahnesine hazırlayan TEİN Teknoloji, istikrarlı büyümesi ve Ar-Ge yatırımlarıyla Türkiye'nin en büyük bilişim şirketleri listelerinde üst sıralarda yer almanın gururunu taşımaktadır.
-          </p>
-
-          <h2 className="note-title">🎯 Vizyon & Misyon</h2>
-          <p className="note-text">
-            <strong>Vizyonumuz:</strong> Güçlü altyapımız ve yenilikçi bakış açımızla, Türkiye'den yükselen ve global teknoloji dünyasına yön veren dijital bir köprü olmak.
-          </p>
-          <p className="note-text">
-            <strong>Misyonumuz:</strong> İş ortaklarımıza yüksek güvenlikli, ölçeklenebilir ve sürdürülebilir yazılım çözümleri sunarken, teknolojiyi operasyonel süreçleri kusursuzlaştıran bir ekosisteme dönüştürmek.
+            {t('aboutUsPage.text1_2')}
           </p>
 
-          <h2 className="note-title">📦 EnvanterTakip Projesi Hakkında</h2>
+          <h2 className="note-title">{t('aboutUsPage.title2')}</h2>
           <p className="note-text">
-            Kurumsal operasyonlarımızın hızına ivme kazandırmak, donanım ve cihaz yönetimini güvenilir bir dijital zemine oturtmak amacıyla geliştirilen <strong>EnvanterTakip</strong> sistemi, yenilikçi geliştirme vizyonumuzun bir ürünüdür. Modern arayüzü, dinamik özet paneli ve anlık stok takip özellikleriyle bu platform; şirketimizin şeffaflık, hız ve operasyonel verimlilik hedeflerinin en somut örneklerinden biridir.
+            {t('aboutUsPage.text2_1')}
+          </p>
+          <p className="note-text">
+            {t('aboutUsPage.text2_2')}
+          </p>
+
+          <h2 className="note-title">{t('aboutUsPage.title3')}</h2>
+          <p className="note-text">
+            {t('aboutUsPage.text3')}
           </p>
         </div>
 

@@ -3,39 +3,44 @@ import { useNavigate } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { useProducts } from '../hooks/useProducts';
 import { sortProducts, withCategoryColors } from '../utils/productHelpers';
+import { useTranslation } from '../utils/i18n';
 import './InventoryList.css';
-
-const SORT_OPTIONS = [
-  { value: 'name-asc', label: 'İsim (A-Z)' },
-  { value: 'name-desc', label: 'İsim (Z-A)' },
-  { value: 'stock-desc', label: 'Stok (Yüksek)' },
-  { value: 'stock-asc', label: 'Stok (Düşük)' },
-  { value: 'category-asc', label: 'Kategori (A-Z)' },
-];
 
 export default function InventoryList() {
   const navigate = useNavigate();
   const { products } = useProducts();
+  const { t } = useTranslation();
   const [sortBy, setSortBy] = useState('name-asc');
   const [searchTerm, setSearchTerm] = useState('');
 
+  const sortOptions = useMemo(() => [
+    { value: 'name-asc', label: t('lang') === 'ar' ? 'الاسم (أ-ي)' : t('lang') === 'es' ? 'Nombre (A-Z)' : t('lang') === 'en' ? 'Name (A-Z)' : 'İsim (A-Z)' },
+    { value: 'name-desc', label: t('lang') === 'ar' ? 'الاسم (ي-أ)' : t('lang') === 'es' ? 'Nombre (Z-A)' : t('lang') === 'en' ? 'Name (Z-A)' : 'İsim (Z-A)' },
+    { value: 'stock-desc', label: t('lang') === 'ar' ? 'المخزون (الأعلى)' : t('lang') === 'es' ? 'Stock (Alto)' : t('lang') === 'en' ? 'Stock (High)' : 'Stok (Yüksek)' },
+    { value: 'stock-asc', label: t('lang') === 'ar' ? 'المخزون (الأقل)' : t('lang') === 'es' ? 'Stock (Bajo)' : t('lang') === 'en' ? 'Stock (Low)' : 'Stok (Düşük)' },
+    { value: 'category-asc', label: t('lang') === 'ar' ? 'الفئة (أ-ي)' : t('lang') === 'es' ? 'Categoría (A-Z)' : t('lang') === 'en' ? 'Category (A-Z)' : 'Kategori (A-Z)' },
+  ], [t]);
+
   const filteredAndSortedProducts = useMemo(() => {
     const term = searchTerm.toLowerCase().trim();
-    const filtered = products.filter(
-      (product) =>
-        product.name.toLowerCase().includes(term) ||
+    const filtered = products.filter((product) => {
+      const transName = t('products.' + product.name, product.name).toLowerCase();
+      const transCat = t('categories.' + product.category, product.category).toLowerCase();
+      return (
+        transName.includes(term) ||
         product.sku.toLowerCase().includes(term) ||
-        product.category.toLowerCase().includes(term)
-    );
+        transCat.includes(term)
+      );
+    });
     return withCategoryColors(sortProducts(filtered, sortBy));
-  }, [products, sortBy, searchTerm]);
+  }, [products, sortBy, searchTerm, t]);
 
   return (
     <div className="inventory-page">
       <header className="inventory-header">
         <div>
-          <h1>Envanter Listesi</h1>
-          <p>Ürünleri görüntüleyin ve sıralayın. Detay için görsele tıklayın.</p>
+          <h1>{t('inventory.title')}</h1>
+          <p>{t('inventory.subtitle')}</p>
         </div>
 
         <div className="inventory-header-actions">
@@ -57,20 +62,20 @@ export default function InventoryList() {
             <input
               type="text"
               id="product-search"
-              placeholder="Ürün adı, kategori veya SKU ara..."
+              placeholder={t('inventory.searchPlaceholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
 
           <div className="inventory-sort">
-            <label htmlFor="product-sort">Sırala</label>
+            <label htmlFor="product-sort">{t('inventory.sortLabel')}</label>
             <select
               id="product-sort"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
-              {SORT_OPTIONS.map((option) => (
+              {sortOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
@@ -92,7 +97,7 @@ export default function InventoryList() {
         </div>
       ) : (
         <div className="inventory-empty-search">
-          <p>Aramanızla eşleşen ürün bulunamadı.</p>
+          <p>{t('inventory.emptySearch')}</p>
         </div>
       )}
     </div>

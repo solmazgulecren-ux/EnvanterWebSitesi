@@ -5,12 +5,15 @@ import ProductCard from '../components/ProductCard';
 import { useProducts } from '../hooks/useProducts';
 import { sortProducts, withCategoryColors, textColorForBg } from '../utils/productHelpers';
 import { CATEGORIES, CATEGORY_COLORS } from '../theme/colors';
+import { useTranslation } from '../utils/i18n';
+import { registerNewTranslations } from '../utils/translationEngine';
 import './AddProduct.css';
 import '../pages/InventoryList.css';
 
 export default function AddProduct() {
   const navigate = useNavigate();
   const { products, addProduct } = useProducts();
+  const { t } = useTranslation();
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState('');
   const [image, setImage] = useState('');
@@ -57,22 +60,22 @@ export default function AddProduct() {
     let hasError = false;
 
     if (!name.trim()) {
-      setNameError('Ürün adı boş bırakılamaz');
+      setNameError(t('addProductPage.errorName'));
       hasError = true;
     } else {
       setNameError('');
     }
 
     if (!image.trim()) {
-      setImageError('Ürün görseli eklenmelidir');
+      setImageError(t('addProductPage.errorImage'));
       hasError = true;
     } else {
       setImageError('');
     }
 
     const stockNum = Number(stock);
-    if (!stock || stockNum < 0 || !Number.isInteger(stockNum)) {
-      setStockError('Geçerli bir stok miktarı giriniz');
+    if (stock === '' || isNaN(stockNum) || stockNum < 0 || !Number.isInteger(stockNum)) {
+      setStockError(t('addProductPage.errorStock'));
       hasError = true;
     } else {
       setStockError('');
@@ -80,8 +83,13 @@ export default function AddProduct() {
 
     if (hasError) return;
 
-    addProduct({ name, image, description, defectNotes, category, stock: stockNum });
-    setSuccessMessage('Ürün başarıyla eklendi');
+    registerNewTranslations(name.trim());
+    if (description.trim()) {
+      registerNewTranslations(description.trim());
+    }
+
+    addProduct({ name: name.trim(), image, description: description.trim(), defectNotes: defectNotes.trim(), category, stock: stockNum });
+    setSuccessMessage(t('addProductPage.successMsg'));
     resetForm();
     setShowForm(false);
     setTimeout(() => setSuccessMessage(''), 2500);
@@ -91,8 +99,8 @@ export default function AddProduct() {
     <div className="add-product-page">
       <header className="inventory-header">
         <div>
-          <h1>Ürün Ekle</h1>
-          <p>Yeni ürün eklemek için + kutusuna tıklayın.</p>
+          <h1>{t('addProductPage.title')}</h1>
+          <p>{t('addProductPage.subtitle')}</p>
         </div>
       </header>
 
@@ -116,13 +124,13 @@ export default function AddProduct() {
       {showForm && (
         <div className="add-product-modal-backdrop" onClick={() => setShowForm(false)}>
           <div className="add-product-modal" onClick={(event) => event.stopPropagation()}>
-            <h2>Yeni Ürün Bilgileri</h2>
-            <p className="add-product-modal-subtitle">Görsel, isim, kategori, stok miktarı ve açıklama girin.</p>
+            <h2>{t('addProductPage.modalTitle')}</h2>
+            <p className="add-product-modal-subtitle">{t('addProductPage.modalSubtitle')}</p>
 
             <form onSubmit={handleSubmit} noValidate>
               <div className="add-form-group">
                 <div className="add-form-label-row">
-                  <label>Ürün Adı</label>
+                  <label>{t('addProductPage.productName')}</label>
                   {nameError && <span className="add-form-error">{nameError}</span>}
                 </div>
                 <input
@@ -132,13 +140,13 @@ export default function AddProduct() {
                     setName(event.target.value);
                     if (nameError) setNameError('');
                   }}
-                  placeholder="Örn: Dizüstü Bilgisayar"
+                  placeholder={t('placeholders.productName')}
                 />
               </div>
 
               {/* ── Kategori seçimi ── */}
               <div className="add-form-group">
-                <label>Kategori</label>
+                <label>{t('addProductPage.category')}</label>
                 <div className="add-form-category-select">
                   {CATEGORIES.map((cat) => (
                     <button
@@ -153,7 +161,7 @@ export default function AddProduct() {
                       }}
                       onClick={() => setCategory(cat)}
                     >
-                      {cat}
+                      {t('categories.' + cat, cat)}
                     </button>
                   ))}
                 </div>
@@ -162,7 +170,7 @@ export default function AddProduct() {
               {/* ── Stok miktarı ── */}
               <div className="add-form-group">
                 <div className="add-form-label-row">
-                  <label>Stok Miktarı</label>
+                  <label>{t('addProductPage.stock')}</label>
                   {stockError && <span className="add-form-error">{stockError}</span>}
                 </div>
                 <input
@@ -173,13 +181,13 @@ export default function AddProduct() {
                     setStock(event.target.value);
                     if (stockError) setStockError('');
                   }}
-                  placeholder="Örn: 25"
+                  placeholder={t('placeholders.stock')}
                 />
               </div>
 
               <div className="add-form-group">
                 <div className="add-form-label-row">
-                  <label>Ürün Görseli</label>
+                  <label>{t('addProductPage.image')}</label>
                   {imageError && <span className="add-form-error">{imageError}</span>}
                 </div>
                 <input type="file" accept="image/*" onChange={handleImageFile} />
@@ -190,7 +198,7 @@ export default function AddProduct() {
                     setImage(event.target.value);
                     if (imageError) setImageError('');
                   }}
-                  placeholder="veya görsel URL'si yapıştırın"
+                  placeholder={t('placeholders.imageUrl')}
                 />
                 {image && (
                   <div className="add-form-preview">
@@ -200,31 +208,31 @@ export default function AddProduct() {
               </div>
 
               <div className="add-form-group">
-                <label>Açıklama</label>
+                <label>{t('addProductPage.description')}</label>
                 <textarea
                   value={description}
                   onChange={(event) => setDescription(event.target.value)}
-                  placeholder="Ürün hakkında kısa açıklama"
+                  placeholder={t('placeholders.description')}
                   rows={3}
                 />
               </div>
 
               <div className="add-form-group">
-                <label>Hata / Durum Notu</label>
+                <label>{t('addProductPage.defectNotes')}</label>
                 <textarea
                   value={defectNotes}
                   onChange={(event) => setDefectNotes(event.target.value)}
-                  placeholder="Örn: Ekran kırık, pil şişmiş"
+                  placeholder={t('placeholders.defectNotes')}
                   rows={2}
                 />
               </div>
 
               <div className="add-form-actions">
                 <button type="button" className="add-form-cancel" onClick={() => setShowForm(false)}>
-                  İptal
+                  {t('addProductPage.cancel')}
                 </button>
                 <button type="submit" className="add-form-submit">
-                  Ürünü Kaydet
+                  {t('addProductPage.save')}
                 </button>
               </div>
             </form>

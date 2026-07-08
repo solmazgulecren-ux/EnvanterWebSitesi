@@ -1,0 +1,62 @@
+.language-selector-panel {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 6px;
+  border-radius: 16px;
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(234, 64, 118, 0.12);
+  z-index: 100000;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.language-selector-panel:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 14px 30px rgba(0, 0, 0, 0.12),
+    0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #555;
+  transition: all 0.2s ease;
+}
+
+.lang-btn:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: #111;
+}
+
+.lang-btn.active {
+  background: #ea4076; /* Canavar pembesi / aktif renk */
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(234, 64, 118, 0.25);
+}
+
+.lang-flag {
+  font-size: 15px;
+}
+
+.lang-code {
+  letter-spacing: 0.5px;
+}
+
+
