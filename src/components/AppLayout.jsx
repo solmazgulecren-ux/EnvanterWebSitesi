@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import SidebarMonster from './SidebarMonster';
 import { useTranslation } from '../utils/i18n';
@@ -8,13 +9,15 @@ import './AppLayout.css';
 export default function AppLayout() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
-  const handleLogout = () => {
-    const confirmed = window.confirm(t('sidebar.logoutConfirm'));
-    if (confirmed) {
-      logoutUser();
-      navigate('/login');
-    }
+  const handleLogoutClick = () => {
+    setShowLogoutConfirm(true);
+  };
+
+  const handleConfirmLogout = () => {
+    logoutUser();
+    navigate('/login');
   };
 
   return (
@@ -42,7 +45,7 @@ export default function AppLayout() {
             <NavLink to="/hakkimizda" className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}>
               {t('sidebar.aboutUs')}
             </NavLink>
-            <button type="button" className="sidebar-link sidebar-logout" onClick={handleLogout}>
+            <button type="button" className="sidebar-link sidebar-logout" onClick={handleLogoutClick}>
               {t('sidebar.logout')}
             </button>
           </nav>
@@ -56,6 +59,33 @@ export default function AppLayout() {
       <main className="app-main">
         <Outlet />
       </main>
+
+      {showLogoutConfirm && (
+        <div className="logout-modal-backdrop" onClick={() => setShowLogoutConfirm(false)}>
+          <div className="logout-confirm-modal" onClick={(event) => event.stopPropagation()}>
+            <div className="logout-confirm-modal-header">
+              <h2>🚪 {t('sidebar.logout')}?</h2>
+            </div>
+            <p>{t('sidebar.logoutConfirm')}</p>
+            <div className="logout-confirm-actions">
+              <button
+                type="button"
+                className="logout-confirm-btn logout-confirm-cancel"
+                onClick={() => setShowLogoutConfirm(false)}
+              >
+                {t('productDetail.cancel') || 'İptal'}
+              </button>
+              <button
+                type="button"
+                className="logout-confirm-btn logout-confirm-submit"
+                onClick={handleConfirmLogout}
+              >
+                {t('sidebar.logout')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
