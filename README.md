@@ -1,16 +1,25 @@
-# React + Vite
+# 📦 EnvanterTakip Sistemi
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+TEİN Teknoloji kurumsal kimliği ve vizyonu doğrultusunda geliştirilmiş; modern arayüze sahip, veri kalıcılığı sağlayan ve çoklu dil destekli dinamik bir envanter yönetim dashboard (özet paneli) projesidir.
 
-Currently, two official plugins are available:
+## ✨ Öne Çıkan Özellikler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **İnteraktif Arayüz (UI/UX):** Giriş ve Kayıt ekranlarında kullanıcının fare hareketlerini ve form odaklanmalarını (focus) takip eden interaktif SVG maskotlar.
+- **Kapsamlı Dashboard:** Gerçek zamanlı toplam ürün sayacı ve stok miktarı 5'in altına düşen ürünler için "Kritik Stok" takip mekanizması.
+- **Kategori ve Renk Algoritması:** Ürün gruplarına özel dinamik renk kodlaması:
+  - 🟣 Magenta (Bilgisayar)
+  - 🟡 Sarı (Kulaklık)
+  - 🟢 Yeşil (Klavye)
+  - 🔵 Mavi (Mouse)
+  - 🌸 Toz Pembe (Diğer)
+- **i18n Çoklu Dil Desteği:** Türkçe, İngilizce, İspanyolca ve Arapça (TR, EN, ES, AR) dilleri arasında anlık arayüz, ürün kutusu ve kategori çevirisi.
+- **Veri Kalıcılığı:** LocalStorage entegrasyonu ile tarayıcı yenilemelerinde (refresh) veri kaybını önleyen yapı.
+- **CRUD İşlemleri:** Sisteme yeni ürün ekleme, listeleme, detaylı inceleme, düzenleme (Edit) ve silme (Delete) özellikleri.
+- **Kurumsal Entegrasyon:** Sabit (sticky) yan menü tasarımı ve TEİN Teknoloji'nin vizyonunu yansıtan not kağıdı tasarımlı "Hakkımızda" sayfası.
 
-## React Compiler
+## 🛠️ Kullanılan Teknolojiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- **Frontend:** React (Vite)
+- **Yönlendirme:** React Router DOM
+- **Durum ve Veri Yönetimi:** React Hooks (useState, useEffect) & LocalStorage
+- **Tasarım:** Modern CSS3, Flexbox/Grid, Animasyonlu SVG'ler
